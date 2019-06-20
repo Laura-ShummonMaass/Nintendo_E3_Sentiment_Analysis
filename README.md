@@ -1,7 +1,7 @@
 # Nintendo_E3_Sentiment_Analysis
 
 ### User Story
-Analyze tweets occurring during the 2019 Nintendo E3 conference for positive/negative sentiments. Will use clustering for each major event occurring during the conference to see what types of sentiments there are towards different relevant topics. 
+Analyze tweets occurring during the 2019 Nintendo E3 conference for positive/negative sentiments. Will use clustering for each major event occurring during the conference to see what types of sentiments there are towards the various major events by focusing on relevant topics (fancise names, the presenter, new tech). 
 
 ### Business Understanding    
 Video game companies have annual announcements that are typically live streamed. In these announcements they will announce new games, new councils, and any (typically positive) major news relevant to their company. I would like to develop a model that can pick up on the positive / negative sentiments of twitter users during the live stream of the conference on June 11th 2019 in order to understand which announcements users liked / disliked. I’d like to develop a dashboard that analyzes the data to see which demographics liked / disliked certain announcements. 

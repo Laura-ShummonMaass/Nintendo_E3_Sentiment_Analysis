@@ -1,8 +1,5 @@
 # Nintendo_E3_Sentiment_Analysis
 
-### User Story
-Analyze tweets occurring during the 2019 Nintendo E3 conference for positive/negative sentiments. Will use clustering for each major event occurring during the conference to see what types of sentiments there are towards the various major events by focusing on relevant topics (fancise names, the presenter, new tech). 
-
 ### Business Understanding    
 Video game companies have annual announcements that are typically live streamed. In these announcements they will announce new games, new councils, and any (typically positive) major news relevant to their company. I would like to develop a model that can pick up on the positive / negative sentiments of twitter users during the live stream of the conference on June 11th 2019 in order to understand which announcements users liked / disliked. I’d like to develop a dashboard that analyzes the data to see which demographics liked / disliked certain announcements. 
 
@@ -30,6 +27,10 @@ There will be a map of the world that shows heat charts for where the majority o
 *Line Chart:*   
 There will be a total event line chart that shows the line that is being shown live to the event. This one will be static, but will have points along it that the user can hover over to see what major events occurred to cause certain spikes in the chart. 
 
+### User Story   
+Why does Nintendo want this.
+When to announce various reveals.
+Analyze tweets occurring during the 2019 Nintendo E3 conference for positive/negative sentiments. Will use clustering for each major event occurring during the conference to see what types of sentiments there are towards the various major events by focusing on relevant topics (fancise names, the presenter, new tech). 
 
 Proposal review guidelines:
 https://docs.google.com/document/d/1A9kwRsAcpDdulZSSFOYueV0iJDsCz1eQrba6gJvr4GQ/edit?usp=sharing 

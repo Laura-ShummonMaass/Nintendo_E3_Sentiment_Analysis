@@ -116,9 +116,9 @@ def trend_line(df1, seconds=5, sum_mean='sum'):
     plt.legend()
     return plt.show()
 
-def create_dictionary_for_specified_time (df1, time=1, which_five='top'): # choose either 'top' or 'bottom'
-    df_filtered_by_seconds = df1.loc[(df1['5_seconds']== time)]  #| (df_words['five_seconds']== 2)]
-    dict_by_seconds = df_filtered_by_seconds.to_dict(orient='index')   
+def create_dictionary_for_specified_time (df1, time=1, seconds=5, which_five='top'): # choose either 'top' or 'bottom'
+    df_filtered_by_seconds = df1.loc[(df1[str(seconds)+'_seconds']== time)]  #| (df_words['five_seconds']== 2)]
+    dict_by_seconds = df_filtered_by_seconds.to_dict(orient='index') 
     # create a cleaned dictionary for each word labeled by tweet number
     list_of_word_dicts = []
     for key1, val in dict_by_seconds.items():
@@ -137,10 +137,10 @@ def create_dictionary_for_specified_time (df1, time=1, which_five='top'): # choo
                                  'neu_sum': neu, 'pos_sum': pos},
                                                 })
             except:
-                pass 
+                pass  
     # remove duplicate words that appear several times in one tweet
     no_dupl_list_of_word_dicts = [i for n, i in enumerate(list_of_word_dicts) 
-                                  if i not in list_of_word_dicts[n + 1:]]  
+                                  if i not in list_of_word_dicts[n + 1:]]    
     return_dict = {}
     for i in no_dupl_list_of_word_dicts:
         for key, val in i.items():
@@ -152,13 +152,13 @@ def create_dictionary_for_specified_time (df1, time=1, which_five='top'): # choo
                     return_dict[key]['compound_sum'] += val['compound_sum']
                     return_dict[key]['neg_sum'] += val['neg_sum']
                     return_dict[key]['neu_sum'] += val['neu_sum']
-                    return_dict[key]['pos_sum'] += val['pos_sum']                  
+                    return_dict[key]['pos_sum'] += val['pos_sum']                   
     compound_dict = {}
     for key, val in return_dict.items():
         #print(key, val)
         #compound_dict.update({key: val['compound_sum'] })
-        compound_dict[key] = val['compound_sum'] 
-    sorted_compound_dict = sorted(compound_dict.items(), key=lambda kv: kv[1]) 
+        compound_dict[key] = val['compound_sum']
+    sorted_compound_dict = sorted(compound_dict.items(), key=lambda kv: kv[1])   
     if which_five == 'top':
         #five_words = dict(sorted_compound_dict[0:5])
         five_words = dict(sorted_compound_dict[-5:])
@@ -169,16 +169,22 @@ def create_dictionary_for_specified_time (df1, time=1, which_five='top'): # choo
         "Please choose either 'top' or 'bottom'."
     return five_words
 
-def top_5_dict_to_df(df1, which_five='top'):  
-    top_5_df = pd.Series(create_dictionary_for_specified_time(df1, which_five=which_five))
+def top_5_dict_to_df(df1, time=1, seconds=5, which_five='top'):  
+    top_5_df = pd.Series(create_dictionary_for_specified_time(df1, 
+                                                              time=time, 
+                                                              seconds=seconds, 
+                                                              which_five=which_five,))
     top_5_df = pd.DataFrame(top_5_df)
     top_5_df = top_5_df.T
     top_5_df['group'] = 'A'
     return top_5_df
 
-def radar_plot_creator(df1, which_five='top'):
+def radar_plot_creator(df1, time=1, seconds=5, which_five='top'):
    # Set data
-    radar_df_test = top_5_dict_to_df(df1, which_five)
+    radar_df_test = top_5_dict_to_df(df1,
+                                     time=time, 
+                                     seconds=seconds, 
+                                     which_five=which_five)
     # number of variable
     categories=list(radar_df_test)[1:]
     N = len(categories)
@@ -207,6 +213,6 @@ def radar_plot_creator(df1, which_five='top'):
     if which_five == 'top':
         testing_radar = ax.fill(angles, values, 'red', alpha=0.1);  
     elif which_five == 'bottom':
-        testing_radar = ax.fill(angles, values, 'grey', alpha=0.1);   
+        testing_radar = ax.fill(angles, values, 'grey', alpha=0.1);    
     return testing_radar
 

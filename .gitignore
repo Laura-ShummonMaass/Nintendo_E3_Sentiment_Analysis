@@ -1,0 +1,7 @@
+.DS_Store
+.ipynb_checkpoints/
+.secret_token
+__pycache__/
+NintendoTweets.json
+E3_100_tweets.json
+archive/

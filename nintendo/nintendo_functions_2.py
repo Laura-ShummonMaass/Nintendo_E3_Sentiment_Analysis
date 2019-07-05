@@ -31,8 +31,8 @@ def get_token():
 
 def get_tweets(query='(#NintendoE3 OR #NintendoDirect) lang:en', 
                max_results=100,
-               from_date='201906111555',
-               to_date='201906111705',
+               from_date='201906111643',
+               to_date='201906111600',
                resp=None,
                token=None,
                url='https://api.twitter.com/1.1/tweets/search/30day/dev.json',
@@ -97,8 +97,8 @@ def store_response_tweets(response_data):
 def store_many_tweets( 
     query='(#NintendoE3 OR #NintendoDirect) lang:en', 
     max_results=100,
-    from_date='201906111555',
-    to_date='201906111705',
+    from_date='201906111643',
+    to_date='201906111600',
     resp=None,
     token=None,
     url='https://api.twitter.com/1.1/tweets/search/30day/dev.json',

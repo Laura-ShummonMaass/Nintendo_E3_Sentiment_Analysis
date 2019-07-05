@@ -31,8 +31,8 @@ def get_token():
 
 def get_tweets(query='(#NintendoE3 OR #NintendoDirect) lang:en', 
                max_results=100,
-               from_date='201906111643',
-               to_date='201906111600',
+               from_date='201906111600',
+               to_date='201906111643',
                resp=None,
                token=None,
                url='https://api.twitter.com/1.1/tweets/search/30day/dev.json',
@@ -87,7 +87,7 @@ def fetch_from_cache_or_api(url, headers, data, stored_responses=stored_response
             })  # store int
             return response.content
         else:
-            raise Exception("Request Failed:\n" + response.content)
+            raise Exception("Request Failed:\n" + str(response.content))
 
 def store_response_tweets(response_data):
     response_dict = json.loads(response_data)
@@ -97,8 +97,8 @@ def store_response_tweets(response_data):
 def store_many_tweets( 
     query='(#NintendoE3 OR #NintendoDirect) lang:en', 
     max_results=100,
-    from_date='201906111643',
-    to_date='201906111600',
+    from_date='201906111600',
+    to_date='201906111643',
     resp=None,
     token=None,
     url='https://api.twitter.com/1.1/tweets/search/30day/dev.json',

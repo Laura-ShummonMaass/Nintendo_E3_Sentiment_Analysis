@@ -1,10 +1,10 @@
 # Nintendo_E3_Sentiment_Analysis
 
-# Steps:
+## Steps:
 
 
 
-# CRISP-DM
+## CRISP-DM
 
 ### Business Understanding    
 Video game companies have annual announcements that are typically live streamed. In these announcements they will reveal new games, new councils, and any major news events relevant to their company. I wanted to develop a model that could pick up on the positive / negative sentiments of twitter users during the livestream of the conference on June 11th 2019. This work would allow me to understand which announcements users liked / disliked the most.  

@@ -1,17 +1,31 @@
 # Nintendo_E3_Sentiment_Analysis
 
 ### Business Understanding    
-Video game companies have annual announcements that are typically live streamed. In these announcements they will announce new games, new councils, and any (typically positive) major news relevant to their company. I would like to develop a model that can pick up on the positive / negative sentiments of twitter users during the live stream of the conference on June 11th 2019 in order to understand which announcements users liked / disliked. I’d like to develop a dashboard that analyzes the data to see which demographics liked / disliked certain announcements. 
+Video game companies have annual announcements that are typically live streamed. In these announcements they will reveal new games, new councils, and any major news events relevant to their company. I wanted to develop a model that could pick up on the positive / negative sentiments of twitter users during the livestream of the conference on June 11th 2019. This work would allow me to understand which announcements users liked / disliked the most.  
 
-### Data Understanding    
-The data that I will use is twitter data from the twitter api. It will export in a json format and I will make sure the data includes the following: date/time, message, age, gender, location. I will collect data from 5 minutes prior to 5 minutes post the event. 
+### Data Understanding   
+I used two sources of data. I initially built the model using 2018 data (found here on kaggle: _____). The second source was from requesting developer access from Twitter to pull from the last 30 days using their API. The issue with this was that I could only pull about 20,000 tweets (when in reality there were probably around 100,000 tweets during the conference with the relevant Nintendo hashtags). I had to be strategic, so I choose 4 specific time intervals for 4 specific games and pulled tweets only during those time slots.  
 
 ### Data Preparation   
-The data should be small enough to store on my machine. I will create a pandas dataframe and filter down the columns to only the ones relevant to my analysis (date/time, message, age, gender, location). I will create a column labeled “sentiment” and for a sample of the data I will manually import the sentiment that I believe the user had in their tweet. This column will be populated with either: “positive”, “neutral”, or “negative”. 
+Since I used an NLP model, the data cleaning focused mainly on the text column (the tweet message itself). I did the following steps to clean the data: 
+* The data originally came in a json file with dictionaries in dictionaries in dictionaries. I used json_normalize to get the file into a pandas dataframe and flatten out the embedded dictionaries. 
+* Next I selected only the columns that were relevant to my work: 'user.id', 'text', 'lang', 'created_at', 'timestamp_ms'
+* I filtered only for tweets that were in english ('en')
+* Created a new column ('time') that showed only the H:M:S in a cleaned format. 
+* Removed any duplicate rows
+* Removed any words starting with either: #, @, http
+* Removed punctuation
+* Forced all words to be lowercase
+* Used lemmatization to get the roots of each word (minimized total unique word count.. ran became run, running became run, etc.) 
 
-### Modeling    
-I will utilize the code that Taeho and Lee created for their mod 3 project. It is in a flask webpage. 
-I will use k means clustering for each major event during the conference. I would like to see what groups of users there are and how they feel towards each announcement. (might need to start out by clustering as a whole in order to find the groups)... or maybe just find groups at each point. Can cluster based on certain positive/negative sentiments toward presenter or the announcement. 
+### Modeling   
+The NLP model I chose was Vader as it is tuned for social media language. For example, words such as 'lol' and 'wtf' are not commonly used outside of social media contexts. Vader includes these commonly used social media words in it's lexicon. The lexicon is essentially a dictionary of words that Vader has assigned a sentiment score to. When using Vader on a tweet, it looks at all of the words in the tweet, for example lets use the sentance: "The game is good, the graphics are nice." 
+GOOD and NICE appear in Vaders lexicon and have score of 1.9 and 1.8 respectively. Vader adds all of the sentiments in the tweet together and then standardizes the score to be between -1 and 1. This is the compound score for the tweet. Anything above 0 is postive, anything below is negative. There are some instances where the score will be 0 if Vader did not have any of the words in the tweet in it's lexicon. 
+
+Trend Lines
+
+Radar Plots
+
 
 ### Evaluation  
 I will compare the model to the manually classified tweets to see how well it performed. I will use k-fold cross validation. 

@@ -1,7 +1,9 @@
 # Nintendo_E3_Sentiment_Analysis
 
 ## STEPS:
-
+1) Data Collection: You can download 2018 twitter data for the hour long announcement from Kaggle here: https://www.kaggle.com/xvivancos/tweets-during-nintendo-e3-2018-conference
+2) DataFrame Creation: 
+3) Vader Sentiment Collection: 
 
 
 ## CRISP-DM:

@@ -1,6 +1,6 @@
 # Nintendo_E3_Sentiment_Analysis
 
-## 2018 STEPS:
+## Nintendo E3 2018 STEPS:
 1) Clone this repo to your computer.
 2) Data Collection: You can download 2018 twitter data for the hour long announcement from Kaggle here: https://www.kaggle.com/xvivancos/tweets-during-nintendo-e3-2018-conference
 3) Move the NintendoTweets.json file into the cloned repo
@@ -9,7 +9,7 @@
 5) You are done with the "nintendo_e3_clustering.ipynb" file, so close this.
 6) Trend Lines & Radar Plots: Open the "final_notebook_trend_and_radar.ipynb" file and run all of the cells. Some may take some time to complete.
 
-## 2019 STEPS:
+## Nintendo E3 2019 STEPS:
 0) Recieve a developer account from Twitter from: https://developer.twitter.com/en/apply-for-access.html
 1) Clone this repo to your computer.
 2) If you are interested in using 2019 (or later) data, you will need to apply for a Twitter developer account here: https://developer.twitter.com/en/apply-for-access.html

@@ -5,3 +5,7 @@ __pycache__/
 NintendoTweets.json
 E3_100_tweets.json
 archive/
+spam_model.pkl
+testing_trend_file.py
+twitter_streaming.py
+index2.html

@@ -1,5 +1,11 @@
 # Nintendo_E3_Sentiment_Analysis
 
+# Steps:
+
+
+
+# CRISP-DM
+
 ### Business Understanding    
 Video game companies have annual announcements that are typically live streamed. In these announcements they will reveal new games, new councils, and any major news events relevant to their company. I wanted to develop a model that could pick up on the positive / negative sentiments of twitter users during the livestream of the conference on June 11th 2019. This work would allow me to understand which announcements users liked / disliked the most.  
 
@@ -36,9 +42,8 @@ The model will be deployed as a Flask app that will show the video of the confer
 The webpage will have 2 inputs: one for the start time of interest and one for the lenth of time to analyze in the radar plots. When the users input these values the radar plots will update along with the specific game(s) that it covers. 
 
 ### User Story   
-Why does Nintendo want this.
-When to announce various reveals.
-Analyze tweets occurring during the 2019 Nintendo E3 conference for positive/negative sentiments. Will use clustering for each major event occurring during the conference to see what types of sentiments there are towards the various major events by focusing on relevant topics (fancise names, the presenter, new tech). 
+The use for this work would be deeper than just the high level NLP sentiment anlysis. If I had more data I would have liked to have done a more detailed analysis into the demographic differences. Does sentiment vary across age, gender, location? I think it would also have been ineresting to incorporate actaul sales into the model. Did higher sentiments result in higher sales? 
+For now, the sentiment analysis focuses soley on the words contributing the most to either positive or negative sentiments. I was hoping that certain game names would pop out, or certain aspects of the presentation. This would give Nintendo a more detailed understanding of not only what people thought of the presentation overall, but which aspects they specifically liked/disliked 
 
 Proposal review guidelines:
 https://docs.google.com/document/d/1A9kwRsAcpDdulZSSFOYueV0iJDsCz1eQrba6gJvr4GQ/edit?usp=sharing 

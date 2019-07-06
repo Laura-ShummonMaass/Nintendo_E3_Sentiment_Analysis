@@ -1,10 +1,19 @@
 # Nintendo_E3_Sentiment_Analysis
 
-## STEPS:
-1) Data Collection: You can download 2018 twitter data for the hour long announcement from Kaggle here: https://www.kaggle.com/xvivancos/tweets-during-nintendo-e3-2018-conference
-2) DataFrame Creation: 
-3) Vader Sentiment Collection: 
+## 2018 STEPS:
+1) Clone this repo to your computer.
+2) Data Collection: You can download 2018 twitter data for the hour long announcement from Kaggle here: https://www.kaggle.com/xvivancos/tweets-during-nintendo-e3-2018-conference
+3) Move the NintendoTweets.json file into the cloned repo
+3) DataFrame Creation: Open the "nintendo_e3_clustering.ipynb" file and run all of the cells. This will clean the dataframe and pickle it for you into a file called "cleaned_twitter_df2.pkl"
+4) Vader Sentiment Collection: You have already completed this step if you completed step 3. This has created a vader sentiment score for each tweet and pickled the output into a file called "vader_output.pkl"
+5) You are done with the "nintendo_e3_clustering.ipynb" file, so close this.
+6) Trend Lines & Radar Plots: Open the "final_notebook_trend_and_radar.ipynb" file and run all of the cells. Some may take some time to complete.
 
+## 2019 STEPS:
+0) Recieve a developer account from Twitter from: https://developer.twitter.com/en/apply-for-access.html
+1) Clone this repo to your computer.
+2) If you are interested in using 2019 (or later) data, you will need to apply for a Twitter developer account here: https://developer.twitter.com/en/apply-for-access.html
+3) 
 
 ## CRISP-DM:
 

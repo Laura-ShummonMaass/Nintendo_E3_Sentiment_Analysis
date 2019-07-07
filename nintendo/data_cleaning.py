@@ -12,12 +12,32 @@ from nltk.corpus import wordnet, stopwords
 from nltk.stem import WordNetLemmatizer 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+def add_time_from_created(df1):
+   df1['.time.'] = df1['created_at'].map(lambda x: x[11:19])
+
+def create_time_col_19(df1):
+    add_time_from_created(df1)
+    df1['.time.'] = df1['.time.'].map(lambda x: datetime.datetime.strptime(x, "%H:%M:%S"))
+    df1['.time.'] = df1['.time.'].map(lambda x: x.time())
+
+def create_timestamp_col(df1):
+    df1['timestamp'] = df1['created_at'].apply(pd.Timestamp)
+
 def select_relevant_cols(df1, col_names=['user.id', 'text', 'lang', 'created_at', 'timestamp_ms']):
     df = df1[col_names]
     return df
 
-def filter_lang(df1, lang='en'):
-    df = select_relevant_cols(df1)
+def select_relevant_cols_19(df1, col_names=['user.id', 'text', 'lang', 'created_at']):
+    df = df1[col_names]
+    return df
+
+def filter_lang(df1, lang='en', col_names=['user.id', 'text', 'lang', 'created_at', 'timestamp_ms']):
+    df = select_relevant_cols(df1, col_names=col_names)
+    df = df.loc[df['lang'] == lang]
+    return df
+
+def filter_lang_19(df1, lang='en', col_names=['user.id', 'text', 'lang', 'created_at']):
+    df = select_relevant_cols_19(df1, col_names=col_names)
     df = df.loc[df['lang'] == lang]
     return df
 

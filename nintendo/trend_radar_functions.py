@@ -117,6 +117,41 @@ def trend_line(df1, seconds=5, sum_mean='sum'):
     plt.legend()
     return plt.show()
 
+def trend_line_19(df1, 
+                  start_time_str='16:07:24', 
+                  end_time_str='16:10:36',
+                  sum_mean='sum'
+                 ):
+    criteria = specific_time_slots(df1, 
+                                    start_time_str=start_time_str,
+                                    end_time_str=end_time_str,
+                                    full_or_filtered_list='filtered')
+    if 'temp_criteria_col' not in df1.columns:
+        pass
+    else:
+        df1.drop(['temp_criteria_col'], axis=1)
+    df1['temp_criteria_col'] = df1['.time.'].map(criteria)
+    df1['temp_criteria_col'].fillna(0, inplace=True)
+    if sum_mean == 'sum':
+        temp_df = df1.loc[df1['temp_criteria_col'] == 1]
+        temp_df = temp_df.groupby('datetime').sum()
+        #temp_df = df1.groupby('temp_criteria_col').sum()
+        #temp_df = temp_df.reset_index()
+    elif sum_mean == 'mean':
+        temp_df = df1.loc[df1['temp_criteria_col'] == 1]
+        temp_df = temp_df.groupby('datetime').mean()
+        #temp_df = df1.groupby('temp_criteria_col').mean()
+        #temp_df = temp_df.reset_index()      
+    #plt.plot(temp_df['temp_criteria_col'], temp_df['pos'], color='red')
+    #plt.plot(temp_df['temp_criteria_col'], temp_df['neg'], color='grey')
+    plt.plot(temp_df['pos'], color='red')
+    plt.plot(temp_df['neg'], color='grey')
+    plt.xlabel('Seconds')
+    plt.ylabel('Sentiment')
+    plt.title('Nintendo E3 Twitter Sentiments (sum)')
+    plt.legend()
+    return plt.show()
+
 def create_dictionary_for_specified_time (df1, time=1, seconds=5, which_five='top'): # choose either 'top' or 'bottom'
     df_filtered_by_seconds = df1.loc[(df1[str(seconds)+'_seconds']== time)]  #| (df_words['five_seconds']== 2)]
     dict_by_seconds = df_filtered_by_seconds.to_dict(orient='index') 
@@ -280,3 +315,173 @@ def radar_function(time=30, seconds=5, sum_mean='sum', which_five='top', trend_r
     words_df = drop_time_from_df(words_df)
     words_df = add_time_to_df(words_df)
     return radar_plot_creator(words_df, time=time, seconds=seconds, which_five=which_five)
+
+def create_dictionary_for_specified_time_19 (df1, which_five='top'): #time=1, seconds=5, which_five='top'): # choose either 'top' or 'bottom'
+    df_filtered_by_temp_col = df1.loc[(df1['temp_criteria_col']== 1)]  #| (df_words['five_seconds']== 2)]
+    dict_by_seconds = df_filtered_by_temp_col.to_dict(orient='index') 
+    # create a cleaned dictionary for each word labeled by tweet number
+    list_of_word_dicts = []
+    for key1, val in dict_by_seconds.items():
+        u_words = val['text2'].split(' ')
+        neg = val['neg']
+        compound = val['compound']
+        neu = val['neu']
+        pos = val['pos']
+        for key, value in val.items():
+            try:
+                value = float(value)
+                if (value > 0) & (key in u_words) :
+                    list_of_word_dicts.append({ 
+                            'tweet_no': key1,
+                            key:{'count': 1, 'compound_sum': compound, 'neg_sum': neg, 
+                                 'neu_sum': neu, 'pos_sum': pos},
+                                                })
+            except:
+                pass  
+    # remove duplicate words that appear several times in one tweet
+    no_dupl_list_of_word_dicts = [i for n, i in enumerate(list_of_word_dicts) 
+                                  if i not in list_of_word_dicts[n + 1:]]    
+    return_dict = {}
+    for i in no_dupl_list_of_word_dicts:
+        for key, val in i.items():
+            if key is not 'tweet_no':
+                if key not in return_dict.keys():
+                    return_dict.update({key : val})
+                else:
+                    return_dict[key]['count'] += val['count']
+                    return_dict[key]['compound_sum'] += val['compound_sum']
+                    return_dict[key]['neg_sum'] += val['neg_sum']
+                    return_dict[key]['neu_sum'] += val['neu_sum']
+                    return_dict[key]['pos_sum'] += val['pos_sum']                   
+    compound_dict = {}
+    for key, val in return_dict.items():
+        #print(key, val)
+        #compound_dict.update({key: val['compound_sum'] })
+        compound_dict[key] = val['compound_sum']
+    sorted_compound_dict = sorted(compound_dict.items(), key=lambda kv: kv[1])   
+    if which_five == 'top':
+        #five_words = dict(sorted_compound_dict[0:5])
+        five_words = dict(sorted_compound_dict[-5:])
+    elif which_five == 'bottom': 
+        #five_words = dict(sorted_compound_dict[-5:])
+        five_words = dict(sorted_compound_dict[0:5])
+    else:
+        "Please choose either 'top' or 'bottom'."
+    return five_words
+
+def top_5_dict_to_df_19(df1, 
+                        #time=1, 
+                        #seconds=5, 
+                        which_five='top'):  
+    top_5_df = pd.Series(create_dictionary_for_specified_time_19(df1, 
+                                                              #time=time, 
+                                                              #seconds=seconds, 
+                                                              which_five=which_five,))
+    top_5_df = pd.DataFrame(top_5_df)
+    top_5_df = top_5_df.T
+    top_5_df['group'] = 'A'
+    return top_5_df
+
+def radar_plot_creator_19(df1, time=1, seconds=5, which_five='top'):
+   # Set data
+    radar_df_test = top_5_dict_to_df_19(df1,
+                                     #time=time, 
+                                     #seconds=seconds, 
+                                     which_five=which_five)
+    # Make negative values positive
+    if which_five=='bottom':
+        radar_df_test = radar_df_test.apply(lambda x: x * -1)
+    else:
+        pass
+    # Find largest score, will affect radar plot size
+    dictionary = create_dictionary_for_specified_time_19(df1, 
+                                                         #time=time, 
+                                                         #seconds=seconds, 
+                                                         which_five=which_five)
+    list_of_scores = []
+    for k, v in dictionary.items():
+        list_of_scores.append(v)
+    if which_five=='top':
+        relevant_score = max(list_of_scores)
+        #relevant_score = relevant_score + (relevant_score*.05)
+    elif which_five=='bottom':
+        relevant_score = (min(list_of_scores))*-1
+        #relevant_score = relevant_score - (.5) 
+    # number of variable
+    categories=list(radar_df_test)[1:]
+    N = len(categories)
+    # We are going to plot the first line of the data frame.
+    # But we need to repeat the first value to close the circular graph:
+    values=radar_df_test.loc[0].drop('group').values.flatten().tolist()
+    values += values[:1]
+    values
+    # What will be the angle of each axis in the plot? (we divide the plot / number of variable)
+    angles = [n / float(N) * 2 * pi for n in range(N)]
+    angles += angles[:1]
+    # Initialise the spider plot
+    ax = plt.subplot(111, polar=True)
+    # Draw one axe per variable + add labels labels yet
+    plt.xticks(angles[:-1], categories, color='grey', size=8)
+    # Draw ylabels
+    ax.set_rlabel_position(0)
+    plt.yticks([0,(relevant_score*.33),(relevant_score*.66),(relevant_score)], 
+               [0, "", "", ""], color="grey", size=7)
+    plt.ylim(0,(relevant_score))
+    # Plot data
+    if which_five == 'top':
+        ax.plot(angles, values, linewidth=1, linestyle='solid', color='red')
+    elif which_five == 'bottom':
+        ax.plot(angles, values, linewidth=1, linestyle='solid', color='grey')
+    # Fill area
+    if which_five == 'top':
+        testing_radar = ax.fill(angles, values, 'red', alpha=0.1);  
+    elif which_five == 'bottom':
+        testing_radar = ax.fill(angles, values, 'grey', alpha=0.1);    
+    return testing_radar
+
+def automating_radar_plots(df1, start_time, end_time, which_five='top'):
+    criteria = specific_time_slots(df1, 
+                                    start_time_str=start_time,
+                                    end_time_str=end_time,
+                                    full_or_filtered_list='filtered')
+    if 'temp_criteria_col' not in df1.columns:
+        pass
+    else:
+        df1.drop(['temp_criteria_col'], axis=1)
+    #df = df1.drop(['temp_criteria_col'], axis=1)
+    df1['temp_criteria_col'] = df1['.time.'].map(criteria)
+    df1['temp_criteria_col'].fillna(0, inplace=True)
+    word_df=words_df(df1)
+    return radar_plot_creator_19(word_df, 
+                          #time=30, 
+                          #seconds=30, 
+                          which_five=which_five)
+
+def specific_time_slots(df1,
+                        start_time_str='16:07:24', 
+                        end_time_str='16:10:46',
+                        full_or_filtered_list='filtered'):
+    every_time = df1['.time.']
+    start_time = datetime.datetime.strptime(start_time_str, "%H:%M:%S")
+    start_time = start_time.time()
+    end_time = datetime.datetime.strptime(end_time_str, "%H:%M:%S")
+    end_time = end_time.time()
+    specific_times = (df1['datetime'] > start_time) & (df1['datetime'] <= end_time)
+    specific_times_final = []
+    for i in specific_times:
+        if i == False:
+            specific_times_final.append(0)
+        elif i == True:
+            specific_times_final.append(1)
+    times_dict = two_series_to_dict(every_time, specific_times_final)
+    times_only_dict = dict((k, v) for k, v in times_dict.items() if v == 1)
+    if full_or_filtered_list == 'full':
+        return times_dict
+    elif full_or_filtered_list == 'filtered':
+        return times_only_dict
+
+def two_series_to_dict(s1_keys, s2_values):
+    keys = s1_keys
+    values = s2_values
+    dictionary = dict(zip(keys, values))
+    return dictionary

@@ -12,13 +12,48 @@ from nltk.corpus import wordnet, stopwords
 from nltk.stem import WordNetLemmatizer 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+def two_series_to_dict(s1_keys, s2_values):
+    keys = s1_keys
+    values = s2_values
+    dictionary = dict(zip(keys, values))
+    return dictionary
+
+def two_series_to_dict_cristian(s1_keys, s2_values):
+    output = {}
+    for key, val in zip(s1_keys, s2_values):
+        output[key] = val
+    return output
+
+def specific_time_slots(df1,
+                        start_time_str='16:07:24', 
+                        end_time_str='16:10:46',
+                        full_or_filtered_list='filtered'):
+    every_time = df1['.time.']
+    start_time = datetime.datetime.strptime(start_time_str, "%H:%M:%S")
+    start_time = start_time.time()
+    end_time = datetime.datetime.strptime(end_time_str, "%H:%M:%S")
+    end_time = end_time.time()
+    specific_times = (df1['datetime'] > start_time) & (df1['datetime'] <= end_time)
+    specific_times_final = []
+    for i in specific_times:
+        if i == False:
+            specific_times_final.append(0)
+        elif i == True:
+            specific_times_final.append(1)
+    times_dict = two_series_to_dict(every_time, specific_times_final)
+    times_only_dict = dict((k, v) for k, v in times_dict.items() if v == 1)
+    if full_or_filtered_list == 'full':
+        return times_dict
+    elif full_or_filtered_list == 'filtered':
+        return times_only_dict
+
 def add_time_from_created(df1):
    df1['.time.'] = df1['created_at'].map(lambda x: x[11:19])
 
 def create_time_col_19(df1):
     add_time_from_created(df1)
-    df1['.time.'] = df1['.time.'].map(lambda x: datetime.datetime.strptime(x, "%H:%M:%S"))
-    df1['.time.'] = df1['.time.'].map(lambda x: x.time())
+    df1['datetime'] = df1['.time.'].map(lambda x: datetime.datetime.strptime(x, "%H:%M:%S"))
+    df1['datetime'] = df1['datetime'].map(lambda x: x.time())
 
 def create_timestamp_col(df1):
     df1['timestamp'] = df1['created_at'].apply(pd.Timestamp)

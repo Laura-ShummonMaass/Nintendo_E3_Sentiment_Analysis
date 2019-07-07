@@ -20,9 +20,9 @@ tweet_coll = db['tweets']
 def store_tweets_in_mongo(tweets, coll=tweet_coll):
     for tweet in tweets:
         #print(tweet['id'])
-        existing_tweets = coll.find({'id': tweet['id']})  #searches to see if the id already exists in the dataframe
+        existing_tweets = tweet_coll.find({'id': tweet['id']})  #searches to see if the id already exists in the dataframe
         if len(list(existing_tweets))==0:
-            coll.insert_one(tweet)
+            tweet_coll.insert_one(tweet)  #was inserting into .coll ? where are these?
 
 def get_token():
     with open('.secret_token') as f:
@@ -31,8 +31,8 @@ def get_token():
 
 def get_tweets(query='(#NintendoE3 OR #NintendoDirect) lang:en', 
                max_results=100,
-               from_date='201906111600',
-               to_date='201906111643',
+               from_date='201906111632',
+               to_date='201906111634',
                resp=None,
                token=None,
                url='https://api.twitter.com/1.1/tweets/search/30day/dev.json',
@@ -97,8 +97,8 @@ def store_response_tweets(response_data):
 def store_many_tweets( 
     query='(#NintendoE3 OR #NintendoDirect) lang:en', 
     max_results=100,
-    from_date='201906111600',
-    to_date='201906111643',
+    from_date='201906111632',
+    to_date='201906111634',
     resp=None,
     token=None,
     url='https://api.twitter.com/1.1/tweets/search/30day/dev.json',

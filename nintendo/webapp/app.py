@@ -41,9 +41,6 @@ from nintendo.trend_radar_functions import (
 
 # df = combine_2_dfs(reset_index(df),json_to_df(vader_output))
 
-
-
-
 with open('spam_model.pkl', 'rb') as f:
     model = pickle.load(f)
 app = Flask(__name__, static_url_path="")
@@ -53,11 +50,9 @@ def index():
     """Return the main page."""
     return render_template('index.html')
 
-
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     """Return a random prediction."""
     data = request.json
     #prediction = model.predict_proba([data['user_input']]) #plug in html user_input id variables
     return jsonify({'hello world!'})
-

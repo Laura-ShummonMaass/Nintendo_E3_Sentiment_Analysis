@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import matplotlib.pyplot as plt
 from math import pi
 import time 
+import pickle
 
 #import pickle
 #with open('cleaned_twitter_df2.pkl', 'rb') as f:
@@ -185,6 +186,22 @@ def radar_plot_creator(df1, time=1, seconds=5, which_five='top'):
                                      time=time, 
                                      seconds=seconds, 
                                      which_five=which_five)
+    # Make negative values positive
+    if which_five=='bottom':
+        radar_df_test = radar_df_test.apply(lambda x: x * -1)
+    else:
+        pass
+    # Find largest score, will affect radar plot size
+    dictionary = create_dictionary_for_specified_time(df1, time=time, seconds=seconds, which_five=which_five)
+    list_of_scores = []
+    for k, v in dictionary.items():
+        list_of_scores.append(v)
+    if which_five=='top':
+        relevant_score = max(list_of_scores)
+        #relevant_score = relevant_score + (relevant_score*.05)
+    elif which_five=='bottom':
+        relevant_score = (min(list_of_scores))*-1
+        #relevant_score = relevant_score - (.5) 
     # number of variable
     categories=list(radar_df_test)[1:]
     N = len(categories)
@@ -202,8 +219,9 @@ def radar_plot_creator(df1, time=1, seconds=5, which_five='top'):
     plt.xticks(angles[:-1], categories, color='grey', size=8)
     # Draw ylabels
     ax.set_rlabel_position(0)
-    plt.yticks([-3,-2,-1,0,1,2,3], ["","","", 0, "", "", ""], color="grey", size=7)
-    plt.ylim(-3,3)
+    plt.yticks([0,(relevant_score*.33),(relevant_score*.66),(relevant_score)], 
+               [0, "", "", ""], color="grey", size=7)
+    plt.ylim(0,(relevant_score))
     # Plot data
     if which_five == 'top':
         ax.plot(angles, values, linewidth=1, linestyle='solid', color='red')
@@ -216,3 +234,49 @@ def radar_plot_creator(df1, time=1, seconds=5, which_five='top'):
         testing_radar = ax.fill(angles, values, 'grey', alpha=0.1);    
     return testing_radar
 
+def completed_words_df():
+    # Load cleaned DF
+    with open('cleaned_twitter_df2.pkl', 'rb') as f:
+        df = pickle.load(f)
+    # Load vader sentiments
+    with open('vader_output.pkl', 'rb') as f:
+        vader_output = pickle.load(f)
+    # Combine cleaned df with vader sentiments and add time column
+    df = combine_2_dfs(reset_index(df),json_to_df(vader_output))
+    df = add_time_to_df(df)
+    # Create list of every unique second in the df
+    unique_sec_list = unique_seconds_list(df)
+    # Create a new column in the df for each relevant second grouping
+    all_relevant_seconds_for_grouping = [5,15,30,60,120,180,300,600,900,
+                                     1200,1800,2400,3000,3600]
+    for i in all_relevant_seconds_for_grouping:
+        df[str(i)+'_seconds'] = df['.time.'].map(seconds_dict(i, unique_sec_list))
+    #Append all unique words to the df and assign it to a new words_df
+    return words_df(df)
+
+def trend_function(time=30, seconds=5, sum_mean='sum', which_five='top', trend_radar='trend'):
+    #Load cleaned DF
+    with open('cleaned_twitter_df2.pkl', 'rb') as f:
+        df = pickle.load(f)
+    # Load vader sentiments
+    with open('vader_output.pkl', 'rb') as f:
+        vader_output = pickle.load(f)
+    # Combine cleaned df with vader sentiments and add time column
+    df = combine_2_dfs(reset_index(df),json_to_df(vader_output))
+    df = add_time_to_df(df)
+    # Create list of every unique second in the df
+    unique_sec_list = unique_seconds_list(df)
+    # Create a new column in the df for each relevant second grouping
+    all_relevant_seconds_for_grouping = [5,15,30,60,120,180,300,600,900,
+                                     1200,1800,2400,3000,3600]
+    for i in all_relevant_seconds_for_grouping:
+        df[str(i)+'_seconds'] = df['.time.'].map(seconds_dict(i, unique_sec_list))
+    return trend_line(df, seconds=seconds, sum_mean=sum_mean)
+
+def radar_function(time=30, seconds=5, sum_mean='sum', which_five='top', trend_radar='trend'):
+    #Append all unique words to the df and assign it to a new words_df
+    words_df = completed_words_df()
+    #There are 2 .time. columns, remove both and add one back
+    words_df = drop_time_from_df(words_df)
+    words_df = add_time_to_df(words_df)
+    return radar_plot_creator(words_df, time=time, seconds=seconds, which_five=which_five)

@@ -2,7 +2,7 @@ import random
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 import pickle
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, make_response
 
 import json
 import pandas as pd
@@ -16,21 +16,7 @@ import matplotlib.pyplot as plt
 from math import pi
 import time 
 from nintendo.trend_radar_functions import (
-    reset_index, 
-    json_to_df, 
-    combine_2_dfs,
-    add_time_to_df,
-    unique_seconds_list, 
-    second_groupings, 
-    seconds_dict, 
-    unique_words_list,
-    vectorize_to_df,
-    words_df,
-    trend_line,
-    drop_time_from_df,
-    create_dictionary_for_specified_time,
-    top_5_dict_to_df,
-    radar_plot_creator,
+    trend_line_for_web
     ) 
 
 # with open('cleaned_twitter_df2.pkl', 'rb') as f:
@@ -41,9 +27,15 @@ from nintendo.trend_radar_functions import (
 
 # df = combine_2_dfs(reset_index(df),json_to_df(vader_output))
 
-with open('spam_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+
+
+# with open('spam_model.pkl', 'rb') as f:
+#     model = pickle.load(f)
 app = Flask(__name__, static_url_path="")
+
+# trend_line = trend_line_for_web(start_time_str='16:07:24', 
+#                                 end_time_str='16:10:36',
+#                                 sum_mean='sum')
 
 @app.route('/')
 def index():
@@ -54,5 +46,19 @@ def index():
 def predict():
     """Return a random prediction."""
     data = request.json
-    #prediction = model.predict_proba([data['user_input']]) #plug in html user_input id variables
-    return jsonify({'hello world!'})
+    #prediction = model.predict_proba([data['start_time'], data['end_time']]) #plug in html user_input id variables
+    prediction = trend_line_for_web(start_time_str=data['start_time'], 
+                                    end_time_str=data['end_time'],
+                                    sum_mean='sum')
+    return prediction
+
+@app.route('/trend_line_output.png', methods=['GET', 'POST'])
+def trend_line():
+    '''Return trend line'''
+    #data = request.json
+    with open ('nintendo/webapp/tmp/trend_line_output.png', 'rb') as f:
+        image_data = f.read()
+    response = make_response(image_data)
+    response.headers.set('Content-Type', 'image/png')
+    return response 
+

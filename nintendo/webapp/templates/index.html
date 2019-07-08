@@ -13,47 +13,49 @@
   <script type="text/javascript" src="brython.js"></script>
   <script type="text/javascript" src="brython_stdlib.js"></script>
 
-  <script type="text/python3">
-    from browser import document, ajax
-    import json
-    import warnings
-    def show_results(response):
-        if response.status==200 or response.status==0:
-            document["result"].html = response.text
-        else:
-            warnings.warn(response.text)
-    def get_prediction(ev):
-        """Get the predicted probability."""
-        req = ajax.ajax()
-        req.bind('complete', show_results)
-        req.open('POST', '/predict', True)
-        req.set_header('content-type','application/json')
-        data = json.dumps({'start_time': document['start_time'].value, 
-                           'start_lenth': document['start_length'].value})
-        req.send(data)
-    document["predict_button"].bind("click", get_prediction)
-  </script>
+ 
   
 
   <!-- Bootstrap core CSS -->
-  <link href="start/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
-  <link href="start/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
   <!-- Custom styles for this template -->
-  <link href="start/css/agency.min.css" rel="stylesheet">
+  <link href="css/agency.min.css" rel="stylesheet">
 
   <script type="text/javascript" src="brython.js"></script>
   <script type="text/javascript" src="brython_stdlib.js"></script>
 
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="brython(1)">
+
+    <script type="text/python3">
+      from browser import document, ajax
+      import json
+      import warnings
+      def show_results(response):
+          if response.status==200:  # If the request was successful
+              document["trend_and_radar"].html = '<img src="trend_line_output.png" />'
+          else:
+              warnings.warn(response.text)
+      def get_prediction(ev):
+          """Get the predicted probability."""
+          req = ajax.ajax()
+          req.bind('complete', show_results)
+          req.open('POST', '/predict', True)
+          req.set_header('content-type','application/json')
+          data = json.dumps({'start_time': document['start_time'].value, 
+                            'end_time': document['end_time'].value})
+          req.send(data)
+      document["predict_button"].bind("click", get_prediction)
+    </script>
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -93,11 +95,11 @@
         <div class="intro-heading text-uppercase">Nintendo E3 2019</div>
         <h4 class="service-heading">Select Start Time</h4>
         <textarea id="start_time"></textarea>
-        <h4 class="service-heading">Select Time Length</h4>
-        <textarea id="start_length"></textarea>
+        <h4 class="service-heading">Select End Time</h4>
+        <textarea id="end_time"></textarea>
         <!-- <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">View Sentiments</a> -->
         <button id="predict_button">View Sentiments!</button>
-        <div id="result"></div>
+        <div id="trend_and_radar"></div>
       </div>
     </div>
   </header>
@@ -119,6 +121,7 @@
           </span>
           <h4 class="service-heading">Luigi's Mansion</h4>
           <p class="text-muted">Start Time: 0:00</p>
+          <p class="text-muted">End Time: 0:00</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -127,6 +130,7 @@
           </span>
           <h4 class="service-heading">Link's Awakening</h4>
           <p class="text-muted">Start Time: 0:00</p>
+          <p class="text-muted">End Time: 0:00</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -135,6 +139,7 @@
           </span>
           <h4 class="service-heading">Cadence of Hyrule</h4>
           <p class="text-muted">Start Time: 0:00</p>
+          <p class="text-muted">End Time: 0:00</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -143,6 +148,7 @@
           </span>
           <h4 class="service-heading">Breath of the Wild</h4>
           <p class="text-muted">Start Time: 0:00</p>
+          <p class="text-muted">End Time: 0:00</p>
         </div>
       </div>
     </div>

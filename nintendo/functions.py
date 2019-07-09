@@ -16,9 +16,12 @@ from nltk.corpus import wordnet, stopwords
 from nltk.stem import WordNetLemmatizer 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-# 2019 FUNCTIONS
-
-# CLEANING
+'''CLEANING'''
+'''CLEANING'''
+'''CLEANING'''
+'''CLEANING'''
+'''CLEANING'''
+'''CLEANING'''
 
 def unique_hashtag_list(df1):
     '''Outputs list of every unique # in text col'''
@@ -50,6 +53,7 @@ def unique_link_list(df1):
 
 def unique_link_list_text2(df1):
     '''Outputs list of every unique http in text col'''
+    '''used in remove_just_links'''
     links = []
     for text in df1['text2']:
         words = text.split(' ')
@@ -141,7 +145,7 @@ def remove_stop_words(df1):
 
 #modified with unique_link_list_text2
 def remove_just_links(df1):
-    '''removes'''
+    '''removes words starting with http again... missed some that started with punctuations'''
     unique_links2 = set(unique_link_list_text2(df1))
     texts_final_no_http = []
     for tweet in df1['text2']:
@@ -151,16 +155,27 @@ def remove_just_links(df1):
         texts_final_no_http.append(result)
     df1['text2'] = texts_final_no_http
 
-# SENTIMENT
+'''VADER SENTIMENT '''
+'''VADER SENTIMENT '''
+'''VADER SENTIMENT '''
+'''VADER SENTIMENT '''
+'''VADER SENTIMENT '''
+'''VADER SENTIMENT '''
 
 def vader_sentiment(df1):
+    '''Outputs a list of sentiments'''
     analyzer = SentimentIntensityAnalyzer()
     vader_output = []
     for tweet in df1['text']:
         vader_output.append(analyzer.polarity_scores(tweet))
     return vader_output
 
-# FUNCTIONS FOR TREND LINES (5 second groups)
+'''TREND LINES (5 SECS)'''
+'''TREND LINES (5 SECS)'''
+'''TREND LINES (5 SECS)'''
+'''TREND LINES (5 SECS)'''
+'''TREND LINES (5 SECS)'''
+'''TREND LINES (5 SECS)'''
 
 def unique_seconds_list(df1):
     '''Creates a list of every unique second in the dataframe's .time. col.'''
@@ -205,7 +220,12 @@ def trend_line_by_5_sec(df1, sum_mean='sum'):
     plt.legend()
     plt.show()
 
-# FUNCTIONS FOR TREND LINES (Time Specific)
+'''TREND LINES (SPECIFIC TIME)'''
+'''TREND LINES (SPECIFIC TIME)'''
+'''TREND LINES (SPECIFIC TIME)'''
+'''TREND LINES (SPECIFIC TIME)'''
+'''TREND LINES (SPECIFIC TIME)'''
+'''TREND LINES (SPECIFIC TIME)'''
 
 def dict_by_index_of_filtered_times(df1,
                                     start_time_str='16:07:24', 
@@ -252,7 +272,7 @@ def trend_line_by_time(df1,
     elif sum_mean == 'mean':
         trend_df = df1.loc[df1['temp_criteria_col'] == 1]
         trend_df = trend_df.groupby('datetime').mean()
-    #NEW LINE -- negate trend_df['neg']
+    #negate trend_df['neg']
     trend_df['neg'] = trend_df['neg'].map(lambda x: x * -1)
     #plot trend_line
     plt.plot(trend_df['pos'], color='red')
@@ -265,7 +285,12 @@ def trend_line_by_time(df1,
     plt.legend()
     return plt.show()   
 
-    # RADAR PLOTS
+'''RADAR PLOTS (SPECIFIC TIME)'''   
+'''RADAR PLOTS (SPECIFIC TIME)'''   
+'''RADAR PLOTS (SPECIFIC TIME)''' 
+'''RADAR PLOTS (SPECIFIC TIME)''' 
+'''RADAR PLOTS (SPECIFIC TIME)''' 
+'''RADAR PLOTS (SPECIFIC TIME)'''   
 
 def unique_words_list(df1):
     '''Creates a list of every unique word in the text2 column of the df.'''

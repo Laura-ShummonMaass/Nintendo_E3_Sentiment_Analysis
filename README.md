@@ -42,7 +42,7 @@ I've also created radar plots that show, for any given period of time in the pre
 
 
 ### Evaluation  
-For evaluation I have gone through and visually validated tweet sentiment scores. The majority seemed to be appropriately categorized, however I did note a few (understandably) incorrectly rated tweets: _________
+For evaluation I have gone through and visually validated tweet sentiment scores. The majority seemed to be appropriately categorized, however I did note a few (understandably) incorrectly rated tweets: "holy shit this is wild wtf" has a score of -0.87, when in reality this sounds more like a positive reaction to a brand new announcement from Nintendo. Also, words that are grossly misspelled are not attributed a sentiment score: "yesssssss" has a score of 0 because vader could not identify it as the word "yes".
 
 ### Deployment  
 The model will be deployed as a Flask app that will show the video of the conference. Beneath the video is the sum trend line showing total positive and negative sentiments at each point in the conference. 

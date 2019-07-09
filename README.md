@@ -4,17 +4,13 @@
 1) Clone this repo to your computer.
 2) Data Collection: You can download 2018 twitter data for the hour long announcement from Kaggle here: https://www.kaggle.com/xvivancos/tweets-during-nintendo-e3-2018-conference
 3) Move the NintendoTweets.json file into the cloned repo
-3) DataFrame Creation: Open the "nintendo_data_cleaning_and_vader.ipynb" file and run all of the cells. This will clean the dataframe and pickle it for you into a file called "cleaned_twitter_df2.pkl"
-4) Vader Sentiment Collection: You have already completed this step if you completed step 3. This has created a vader sentiment score for each tweet and pickled the output into a file called "vader_output.pkl"
-5) You are done with the "nintendo_data_cleaning_and_vader.ipynb" file, so close this.
-6) Trend Lines & Radar Plots: Open the "final_notebook_trend_and_radar.ipynb" file and run all of the cells. Some may take some time to complete. This will output with trend lines for the entire hour, as well as trend lines for selected time periods and radars for select time periods. 
+3) DataFrame Creation: Open the "2018_cleaning_and_trends_radars.ipynb" file and run all of the cells. AFTER YOU RUN THROUGH THE NOTEBOOK the functions at the top of the notebook will be functional. They automate the entire process of creating trend lines and radar graphs. 
 
 ## Nintendo E3 2019 STEPS:
-0.1) Recieve a developer account from Twitter from: https://developer.twitter.com/en/apply-for-access.html
-0.2) Pull the tweets and store them (I used Mongo DB)
-1) Clone this repo to your computer.
-2) DataFrame Creation: Open the "30_day_twitter.ipynb" file 
-3) 
+1) Recieve a developer account from Twitter from: https://developer.twitter.com/en/apply-for-access.html  
+2) Pull the tweets and store them (I used Mongo DB)  
+3) Clone this repo to your computer.
+4) DataFrame Creation: Open the "2019_cleaning_and_trends_radars.ipynb" file and run all of the cells. AFTER YOU RUN THROUGH THE NOTEBOOK the functions at the top of the notebook will be functional. They automate the entire process of creating trend lines and radar graphs. 
 
 ## CRISP-DM:
 
@@ -46,7 +42,7 @@ I've also created radar plots that show, for any given period of time in the pre
 
 
 ### Evaluation  
-For evaluation I have gone through and visually validated tweet sentiment scores. The majority seemed to be appropriately categorized, however I did note a few (understandably) incorrectly rated tweets: _________
+For evaluation I have gone through and visually validated tweet sentiment scores. The majority seemed to be appropriately categorized, however I did note a few (understandably) incorrectly rated tweets: "holy shit this is wild wtf" has a score of -0.87, when in reality this sounds more like a positive reaction to a brand new announcement from Nintendo. Also, words that are grossly misspelled are not attributed a sentiment score: "yesssssss" has a score of 0 because vader could not identify it as the word "yes".
 
 ### Deployment  
 The model will be deployed as a Flask app that will show the video of the conference. Beneath the video is the sum trend line showing total positive and negative sentiments at each point in the conference. 

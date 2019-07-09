@@ -7,10 +7,10 @@
 3) DataFrame Creation: Open the "2018_cleaning_and_trends_radars.ipynb" file and run all of the cells. AFTER YOU RUN THROUGH THE NOTEBOOK the functions at the top of the notebook will be functional. They automate the entire process of creating trend lines and radar graphs. 
 
 ## Nintendo E3 2019 STEPS:
-0.1) Recieve a developer account from Twitter from: https://developer.twitter.com/en/apply-for-access.html
-0.2) Pull the tweets and store them (I used Mongo DB)
-1) Clone this repo to your computer.
-2) DataFrame Creation: Open the "2019_cleaning_and_trends_radars.ipynb" file and run all of the cells. AFTER YOU RUN THROUGH THE NOTEBOOK the functions at the top of the notebook will be functional. They automate the entire process of creating trend lines and radar graphs. 
+1) Recieve a developer account from Twitter from: https://developer.twitter.com/en/apply-for-access.html  
+2) Pull the tweets and store them (I used Mongo DB)  
+3) Clone this repo to your computer.
+4) DataFrame Creation: Open the "2019_cleaning_and_trends_radars.ipynb" file and run all of the cells. AFTER YOU RUN THROUGH THE NOTEBOOK the functions at the top of the notebook will be functional. They automate the entire process of creating trend lines and radar graphs. 
 
 ## CRISP-DM:
 

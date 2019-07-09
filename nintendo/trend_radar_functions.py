@@ -279,10 +279,9 @@ def radar_plot_creator(df1, time=1, seconds=5, which_five='top'):
         ax.plot(angles, values, linewidth=1, linestyle='solid', color='grey')
     # Fill area
     if which_five == 'top':
-        testing_radar = ax.fill(angles, values, 'red', alpha=0.1);  
+        return ax.fill(angles, values, 'red', alpha=0.1);  
     elif which_five == 'bottom':
-        testing_radar = ax.fill(angles, values, 'grey', alpha=0.1);    
-    return testing_radar
+        return ax.fill(angles, values, 'grey', alpha=0.1);    
 
 def completed_words_df():
     '''Adds the fixed groups to the words_df'''

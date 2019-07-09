@@ -175,8 +175,8 @@ img::-moz-selection {
 
 header.masthead {
   text-align: center;
-  color: white;
-  background-image: url("../img/header-bg.jpg");
+  color: black;
+  background-image: url("../img/nintendo_logo.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;

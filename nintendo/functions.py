@@ -243,6 +243,7 @@ def trend_line_by_5_sec(df1, sum_mean="sum"):
     plt.ylabel("Sentiment")
     plt.title("Nintendo E3 Twitter Sentiments (sum)")
     plt.legend()
+    plt.savefig('./nintendo/webapp/tmp/trend_line_hour.png', dpi=150)
     plt.show()
 
 
@@ -309,6 +310,7 @@ def trend_line_by_time(
     plt.ylabel("Sentiment")
     plt.title("Nintendo E3 Twitter Sentiments (sum)")
     plt.legend()
+    plt.savefig('./nintendo/webapp/tmp/trend_line_time.png', dpi=150)
     return plt.show()
 
 
@@ -502,28 +504,51 @@ def output_radar_plot(df1, which_five="top"):
     # Fill area
     if which_five == "top":
         radar_plot = ax.fill(angles, values, "red", alpha=0.1)
+        plt.savefig('./nintendo/webapp/tmp/radar_plot.png', dpi=150) #NEW LINE
     elif which_five == "bottom":
         radar_plot = ax.fill(angles, values, "grey", alpha=0.1)
+        plt.savefig('./nintendo/webapp/tmp/radar_plot.png', dpi=150) #NEW LINE
     return radar_plot
 
 
-# must be used with original df, NOT words_df
+# # must be used with original df, NOT words_df
+# def automated_radar_plots(
+#     df1, start_time="16:07:24", end_time="16:08:36", which_five="top"
+# ):
+#     """Turns original df into radar plot."""
+#     criteria = dict_by_index_of_filtered_times(
+#         df1, start_time_str=start_time, end_time_str=end_time
+#     )
+#     if "temp_criteria_col" not in df1.columns:
+#         pass
+#     else:
+#         df1.drop(["temp_criteria_col"], axis=1)
+#     # df = df1.drop(['temp_criteria_col'], axis=1)
+#     df1["temp_criteria_col"] = df1["index"].map(criteria)
+#     df1["temp_criteria_col"].fillna(0, inplace=True)
+#     word_df = words_df(df1)
+#     return output_radar_plot(word_df, which_five=which_five)
+
 def automated_radar_plots(
     df1, start_time="16:07:24", end_time="16:08:36", which_five="top"
 ):
-    """Turns original df into radar plot."""
-    criteria = dict_by_index_of_filtered_times(
-        df1, start_time_str=start_time, end_time_str=end_time
-    )
-    if "temp_criteria_col" not in df1.columns:
-        pass
-    else:
-        df1.drop(["temp_criteria_col"], axis=1)
-    # df = df1.drop(['temp_criteria_col'], axis=1)
-    df1["temp_criteria_col"] = df1["index"].map(criteria)
-    df1["temp_criteria_col"].fillna(0, inplace=True)
-    word_df = words_df(df1)
-    return output_radar_plot(word_df, which_five=which_five)
+    with open ('./nintendo/pkl/words_df_pickle_1.pkl', 'rb') as f:
+        df_pkl_1 = pickle.load(f)
+    with open ('./nintendo/pkl/words_df_pickle_2.pkl', 'rb') as f:
+        df_pkl_2 = pickle.load(f)
+    with open ('./nintendo/pkl/words_df_pickle_3.pkl', 'rb') as f:
+        df_pkl_3 = pickle.load(f)
+    with open ('./nintendo/pkl/words_df_pickle_4.pkl', 'rb') as f:
+        df_pkl_4 = pickle.load(f)
+    with open ('./nintendo/pkl/words_df_pickle_5.pkl', 'rb') as f:
+        df_pkl_5 = pickle.load(f)
+    df_c = pd.concat([df_pkl_1.reset_index(drop=True), 
+                    df_pkl_2.reset_index(drop=True),
+                    df_pkl_3.reset_index(drop=True),
+                    df_pkl_4.reset_index(drop=True),
+                    df_pkl_5.reset_index(drop=True),
+                    ], axis=1)
+    return output_radar_plot(df_c, which_five=which_five)
 
 '''2019 FINAL TREND FUNCTION... no inputs required'''
 '''2019 FINAL TREND FUNCTION... no inputs required'''
@@ -563,7 +588,7 @@ def radar_2019(start_time='16:07:00',
 
 def trend_2018_5_secs(sum_mean='sum'):
     '''No inputs required... 2018 trend grouped by 5 seconds.'''
-    with open ('./nintendo/pkl/2019_df.pkl', 'rb') as f:
+    with open ('./nintendo/pkl/2018_df.pkl', 'rb') as f:
         df = pickle.load(f)
     unique_seconds = unique_seconds_list(df)
     list_of_second_groups = second_groupings(5, unique_seconds)
@@ -580,7 +605,7 @@ def trend_2018_select_secs(start_time='16:07:24',
                            sum_mean='sum',
                            ):
     '''No inputs required. Returns trend line within time range.'''
-    with open ('./nintendo/pkl/2019_df.pkl', 'rb') as f:
+    with open ('./nintendo/pkl/2018_df.pkl', 'rb') as f:
         df = pickle.load(f)
     trend_line_by_time(df, 
                        start_time_str=start_time, 
@@ -597,7 +622,7 @@ def radar_2018(start_time='16:07:24',
                which_five='top',
                ):
     '''No inputs required. Returns radar plot within time range.'''
-    with open ('./nintendo/pkl/2019_df.pkl', 'rb') as f:
+    with open ('./nintendo/pkl/2018_df.pkl', 'rb') as f:
         df = pickle.load(f)
     automated_radar_plots(df, 
                            start_time=start_time, 

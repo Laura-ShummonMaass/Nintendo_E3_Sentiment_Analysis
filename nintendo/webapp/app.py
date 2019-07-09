@@ -15,8 +15,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 import matplotlib.pyplot as plt
 from math import pi
 import time 
-from nintendo.trend_radar_functions import (
-    trend_line_for_web
+from nintendo.functions import (
+    trend_2018_select_secs
     ) 
 
 # with open('cleaned_twitter_df2.pkl', 'rb') as f:
@@ -47,8 +47,8 @@ def predict():
     """Return a random prediction."""
     data = request.json
     #prediction = model.predict_proba([data['start_time'], data['end_time']]) #plug in html user_input id variables
-    prediction = trend_line_for_web(start_time_str=data['start_time'], 
-                                    end_time_str=data['end_time'],
+    prediction = trend_2018_select_secs(start_time=data['start_time'], 
+                                    end_time=data['end_time'],
                                     sum_mean='sum')
     return prediction
 
@@ -56,7 +56,7 @@ def predict():
 def trend_line():
     '''Return trend line'''
     #data = request.json
-    with open ('nintendo/webapp/tmp/trend_line_output.png', 'rb') as f:
+    with open ('nintendo/webapp/tmp/trend_line_time.png', 'rb') as f:
         image_data = f.read()
     response = make_response(image_data)
     response.headers.set('Content-Type', 'image/png')

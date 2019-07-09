@@ -42,7 +42,7 @@
       import warnings
       def show_results(response):
           if response.status==200:  # If the request was successful
-              document["trend_and_radar"].html = '<img src="trend_line_output.png" />'
+              document["trend_and_radar"].html = '<img src="trend_line_time.png" />'
           else:
               warnings.warn(response.text)
       def get_prediction(ev):

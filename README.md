@@ -1,5 +1,8 @@
 # Nintendo_E3_Sentiment_Analysis
 
+## Slide Deck:
+https://docs.google.com/presentation/d/1NU6hYMc0wPDjx770ZnbZ8ElYbiUtLDSJUczJdegwsNo/edit?usp=sharing
+
 ## Nintendo E3 2018 STEPS:
 1) Clone this repo to your computer.
 2) Data Collection: You can download 2018 twitter data for the hour long announcement from Kaggle here: https://www.kaggle.com/xvivancos/tweets-during-nintendo-e3-2018-conference

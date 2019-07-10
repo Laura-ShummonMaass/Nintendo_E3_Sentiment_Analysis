@@ -40,11 +40,13 @@
       from browser import document, ajax
       import json
       import warnings
+              
       def show_results(response):
           if response.status==200:  # If the request was successful
-              document["trend_and_radar"].html = '<img src="trend_line_time.png" />'
+            document["trend_and_radar"].html = '<img src="/tmp/trend_line_time.png" width="400" height="270" alt="Trend Line"/>'
           else:
               warnings.warn(response.text)
+          
       def get_prediction(ev):
           """Get the predicted probability."""
           req = ajax.ajax()
@@ -94,9 +96,9 @@
         <div class="intro-lead-in">Welcome To Twitter Sentiments of</div>
         <div class="intro-heading text-uppercase">Nintendo E3 2019</div>
         <h4 class="service-heading">Select Start Time</h4>
-        <textarea id="start_time"></textarea>
+        <textarea id="start_time">16:07:23</textarea>
         <h4 class="service-heading">Select End Time</h4>
-        <textarea id="end_time"></textarea>
+        <textarea id="end_time">16:08:34</textarea>
         <!-- <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">View Sentiments</a> -->
         <button id="predict_button">View Sentiments!</button>
         <div id="trend_and_radar"></div>

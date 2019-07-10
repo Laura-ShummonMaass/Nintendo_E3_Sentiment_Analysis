@@ -46,17 +46,21 @@ def index():
 def predict():
     """Return a random prediction."""
     data = request.json
+    
+    print("after_2")
+
     #prediction = model.predict_proba([data['start_time'], data['end_time']]) #plug in html user_input id variables
-    prediction = trend_2018_select_secs(start_time=data['start_time'], 
+    trend_2018_select_secs(start_time=data['start_time'], 
                                     end_time=data['end_time'],
                                     sum_mean='sum')
-    return prediction
-
-@app.route('/trend_line_output.png', methods=['GET', 'POST'])
-def trend_line():
+    print("after_1")
+    # return prediction
+    time.sleep(2)
+# @app.route('/trend_line_time.png', methods=['GET', 'POST'])
+# def trend_line():
     '''Return trend line'''
     #data = request.json
-    with open ('nintendo/webapp/tmp/trend_line_time.png', 'rb') as f:
+    with open ('/Users/laurashummonmaass/Documents/flatiron/capstone_final/Nintendo_E3_Sentiment_Analysis/nintendo/webapp/static/tmp/trend_line_time.png', 'rb') as f:
         image_data = f.read()
     response = make_response(image_data)
     response.headers.set('Content-Type', 'image/png')

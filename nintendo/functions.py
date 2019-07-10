@@ -243,7 +243,7 @@ def trend_line_by_5_sec(df1, sum_mean="sum"):
     plt.ylabel("Sentiment")
     plt.title("Nintendo E3 Twitter Sentiments (sum)")
     plt.legend()
-    plt.savefig('./nintendo/webapp/tmp/trend_line_hour.png', dpi=150)
+    plt.savefig('nintendo/webapp/static/tmp/trend_line_hour.png', dpi=150)
     plt.show()
 
 
@@ -261,12 +261,12 @@ def dict_by_index_of_filtered_times(
     # print(start_time_str, end_time_str)
     every_index = df1["index"]
     # convert input strings to datetime.time
-    start_time = datetime.datetime.strptime(start_time_str, "%H:%M:%S")
-    start_time = start_time.time()
-    end_time = datetime.datetime.strptime(end_time_str, "%H:%M:%S")
-    end_time = end_time.time()
+    start_times = datetime.datetime.strptime(start_time_str, "%H:%M:%S")
+    start_times = start_times.time()
+    end_times = datetime.datetime.strptime(end_time_str, "%H:%M:%S")
+    end_times = end_times.time()
     # filters by time (returns in True/False)
-    specific_times = (df1["datetime"] > start_time) & (df1["datetime"] <= end_time)
+    specific_times = (df1["datetime"] > start_times) & (df1["datetime"] <= end_times)
     # converting True False to boolean
     specific_times_final = []
     for i in specific_times:
@@ -310,8 +310,7 @@ def trend_line_by_time(
     plt.ylabel("Sentiment")
     plt.title("Nintendo E3 Twitter Sentiments (sum)")
     plt.legend()
-    plt.savefig('./nintendo/webapp/tmp/trend_line_time.png', dpi=150)
-    return plt.show()
+    plt.savefig('nintendo/webapp/static/tmp/trend_line_time.png', dpi=150)
 
 
 """RADAR PLOTS (SPECIFIC TIME)"""
@@ -358,7 +357,7 @@ def words_df(df1):
     # remove index and reset index
     df = df.drop("index", 1)
     df = df.reset_index()
-    df = df.rename(index=str, columns={"index": "df_index"})
+    df = df.rename(index=str, columns={"index": "index"})  
     # create a matrix dataframe of words
     matrix_df = vectorize_to_matrix_df(df1).reset_index()
     matrix_df = matrix_df.rename(index=str, columns={"index": "matrix_df_index"})
@@ -504,51 +503,51 @@ def output_radar_plot(df1, which_five="top"):
     # Fill area
     if which_five == "top":
         radar_plot = ax.fill(angles, values, "red", alpha=0.1)
-        plt.savefig('./nintendo/webapp/tmp/radar_plot.png', dpi=150) #NEW LINE
+        plt.savefig('nintendo/webapp/static/tmp/radar_plot.png', dpi=150) #NEW LINE
     elif which_five == "bottom":
         radar_plot = ax.fill(angles, values, "grey", alpha=0.1)
-        plt.savefig('./nintendo/webapp/tmp/radar_plot.png', dpi=150) #NEW LINE
+        plt.savefig('nintendo/webapp/static/tmp/radar_plot.png', dpi=150) #NEW LINE
     return radar_plot
 
 
-# # must be used with original df, NOT words_df
-# def automated_radar_plots(
-#     df1, start_time="16:07:24", end_time="16:08:36", which_five="top"
-# ):
-#     """Turns original df into radar plot."""
-#     criteria = dict_by_index_of_filtered_times(
-#         df1, start_time_str=start_time, end_time_str=end_time
-#     )
-#     if "temp_criteria_col" not in df1.columns:
-#         pass
-#     else:
-#         df1.drop(["temp_criteria_col"], axis=1)
-#     # df = df1.drop(['temp_criteria_col'], axis=1)
-#     df1["temp_criteria_col"] = df1["index"].map(criteria)
-#     df1["temp_criteria_col"].fillna(0, inplace=True)
-#     word_df = words_df(df1)
-#     return output_radar_plot(word_df, which_five=which_five)
-
+# must be used with original df, NOT words_df
 def automated_radar_plots(
     df1, start_time="16:07:24", end_time="16:08:36", which_five="top"
 ):
-    with open ('./nintendo/pkl/words_df_pickle_1.pkl', 'rb') as f:
-        df_pkl_1 = pickle.load(f)
-    with open ('./nintendo/pkl/words_df_pickle_2.pkl', 'rb') as f:
-        df_pkl_2 = pickle.load(f)
-    with open ('./nintendo/pkl/words_df_pickle_3.pkl', 'rb') as f:
-        df_pkl_3 = pickle.load(f)
-    with open ('./nintendo/pkl/words_df_pickle_4.pkl', 'rb') as f:
-        df_pkl_4 = pickle.load(f)
-    with open ('./nintendo/pkl/words_df_pickle_5.pkl', 'rb') as f:
-        df_pkl_5 = pickle.load(f)
-    df_c = pd.concat([df_pkl_1.reset_index(drop=True), 
-                    df_pkl_2.reset_index(drop=True),
-                    df_pkl_3.reset_index(drop=True),
-                    df_pkl_4.reset_index(drop=True),
-                    df_pkl_5.reset_index(drop=True),
-                    ], axis=1)
-    return output_radar_plot(df_c, which_five=which_five)
+    """Turns original df into radar plot."""
+    criteria = dict_by_index_of_filtered_times(
+        df1, start_time_str=start_time, end_time_str=end_time
+    )
+    if "temp_criteria_col" not in df1.columns:
+        pass
+    else:
+        df1.drop(["temp_criteria_col"], axis=1)
+    # df = df1.drop(['temp_criteria_col'], axis=1)
+    df1["temp_criteria_col"] = df1["index"].map(criteria)
+    df1["temp_criteria_col"].fillna(0, inplace=True)
+    word_df = words_df(df1)
+    return output_radar_plot(word_df, which_five=which_five)
+
+
+# def import_df_pickles():
+#     with open ('./nintendo/pkl/words_df_pickle_1.pkl', 'rb') as f:
+#         df_pkl_1 = pickle.load(f)
+#     with open ('./nintendo/pkl/words_df_pickle_2.pkl', 'rb') as f:
+#         df_pkl_2 = pickle.load(f)
+#     with open ('./nintendo/pkl/words_df_pickle_3.pkl', 'rb') as f:
+#         df_pkl_3 = pickle.load(f)
+#     with open ('./nintendo/pkl/words_df_pickle_4.pkl', 'rb') as f:
+#         df_pkl_4 = pickle.load(f)
+#     with open ('./nintendo/pkl/words_df_pickle_5.pkl', 'rb') as f:
+#         df_pkl_5 = pickle.load(f)
+#     df_c = pd.concat([df_pkl_1, 
+#                     df_pkl_2.reset_index(drop=True),
+#                     df_pkl_3.reset_index(drop=True),
+#                     df_pkl_4.reset_index(drop=True),
+#                     df_pkl_5.reset_index(drop=True),
+#                     ], axis=1)
+#     return df_c
+#     return output_radar_plot(df_c, which_five=which_five)
 
 '''2019 FINAL TREND FUNCTION... no inputs required'''
 '''2019 FINAL TREND FUNCTION... no inputs required'''
@@ -624,6 +623,7 @@ def radar_2018(start_time='16:07:24',
     '''No inputs required. Returns radar plot within time range.'''
     with open ('./nintendo/pkl/2018_df.pkl', 'rb') as f:
         df = pickle.load(f)
+    #df = import_df_pickles()
     automated_radar_plots(df, 
                            start_time=start_time, 
                            end_time=end_time, 

@@ -45,9 +45,9 @@ I've also created radar plots that show, for any given period of time in the pre
 For evaluation I have gone through and visually validated tweet sentiment scores. The majority seemed to be appropriately categorized, however I did note a few (understandably) incorrectly rated tweets: "holy shit this is wild wtf" has a score of -0.87, when in reality this sounds more like a positive reaction to a brand new announcement from Nintendo. Also, words that are grossly misspelled are not attributed a sentiment score: "yesssssss" has a score of 0 because vader could not identify it as the word "yes".
 
 ### Deployment  
-The model will be deployed as a Flask app that will show the video of the conference. Beneath the video is the sum trend line showing total positive and negative sentiments at each point in the conference. 
+The model is deployed as a Flask app that shows the video of the conference. Beneath the video is the sum trend line showing total positive and negative sentiments at each point in the conference. 
 
-The webpage will have 2 inputs: one for the start time of interest and one for the lenth of time to analyze in the radar plots. When the users input these values the radar plots will update along with the specific game(s) that it covers. 
+The webpage has 2 inputs: one for the start time of interest and one for end time to analyze in the specific trend line (and eventually possibly radar plots.. currently these take too long to create -- 2 mins). When the users input these values the trend line updates.
 
 ### User Story   
 The use for this work would be deeper than just the high level NLP sentiment anlysis. If I had more data I would have liked to have done a more detailed analysis into the demographic differences. Does sentiment vary across age, gender, location? I think it would also have been ineresting to incorporate actaul sales into the model. Did higher sentiments result in higher sales? 

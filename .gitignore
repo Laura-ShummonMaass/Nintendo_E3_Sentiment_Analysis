@@ -13,3 +13,5 @@ data_cleaning.py
 blank.py
 nintendo/pkl/
 nintendo/webapp/static/tmp/
+nintendo/webapp/static/img/team/4.PNG
+nintendo/webapp/templates/index_copy.html

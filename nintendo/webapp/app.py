@@ -57,6 +57,8 @@ def predict():
     # return prediction
     return f'<img src="/tmp/{filename}" width="400" height="320"/>' #class="chart" />'
 
+
+
 # @app.route('/trend_line_time.png', methods=['GET', 'POST'])
 # def trend_line():
     # '''Return trend line'''

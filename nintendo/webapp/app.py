@@ -50,19 +50,20 @@ def predict():
     print("after_2")
 
     #prediction = model.predict_proba([data['start_time'], data['end_time']]) #plug in html user_input id variables
-    trend_2018_select_secs(start_time=data['start_time'], 
+    filename = trend_2018_select_secs(start_time=data['start_time'], 
                                     end_time=data['end_time'],
                                     sum_mean='sum')
     print("after_1")
     # return prediction
-    time.sleep(2)
+    return f'<img src="/tmp/{filename}" width="400" height="320"/>' #class="chart" />'
+
 # @app.route('/trend_line_time.png', methods=['GET', 'POST'])
 # def trend_line():
-    '''Return trend line'''
-    #data = request.json
-    with open ('/Users/laurashummonmaass/Documents/flatiron/capstone_final/Nintendo_E3_Sentiment_Analysis/nintendo/webapp/static/tmp/trend_line_time.png', 'rb') as f:
-        image_data = f.read()
-    response = make_response(image_data)
-    response.headers.set('Content-Type', 'image/png')
-    return response 
+    # '''Return trend line'''
+    # #data = request.json
+    # with open ('/Users/laurashummonmaass/Documents/flatiron/capstone_final/Nintendo_E3_Sentiment_Analysis/nintendo/webapp/static/tmp/trend_line_time.png', 'rb') as f:
+    #     image_data = f.read()
+    # response = make_response(image_data)
+    # response.headers.set('Content-Type', 'image/png')
+    # return response 
 

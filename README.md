@@ -1,4 +1,4 @@
-# Nintendo_E3_Sentiment_Analysis
+# Nintendo E3 Sentiment Analysis
 
 ## Slide Deck:
 https://docs.google.com/presentation/d/1NU6hYMc0wPDjx770ZnbZ8ElYbiUtLDSJUczJdegwsNo/edit?usp=sharing
